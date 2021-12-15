@@ -1,0 +1,74 @@
+.newResume{
+    padding: 0.1px;
+    width: 800px;
+    margin-top: 20px;
+    margin-left: 50%;
+    position: relative;
+    left: -400px;
+    box-shadow: 0px 0px 10px #DCDCDC;
+    border-radius: 4px;
+    margin-bottom: 50px;
+}
+.newResumeTitleLine{
+    width: 95%;
+    margin: 30px 2.5% 0px 2.5%;
+    position: relative;
+    border-top: 1px solid #DCDCDC;
+}
+.newResumeTitle{
+    width: 100%;
+    text-align: center;
+    position: relative;
+    top: -11px;
+}
+.newResumeTitleSp{
+    background-color: white;
+    padding: 0px 10px;
+}
+.newResumeInp{
+    width: 80%;
+    margin-bottom: 40px;
+    margin-left: 10%;
+    height: 30px;
+}
+.newResumeInp:focus{
+    border: 1px solid #3667DD;
+    outline: none;
+}
+.newResumeInpDateSp{
+    margin-left: 15%;
+}
+.newResumeSave{
+    width: 300px;
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding: 10px 0px;
+    border-radius: 4px;
+    color: white;
+    background-color: #3667DD;
+    margin-left: 50%;
+    position: relative;
+    left: -150px;
+    font-size: 20px;
+    cursor: pointer;
+}
+.newResumePhoto{
+    width: 500px;
+    margin: 20px 150px;
+    border: 2px dashed #DCDCDC;
+    color: #DCDCDC;
+    cursor: pointer;
+    text-align: center;
+    padding: 80px 0px;
+    font-size: 30px;
+}
+.newResumePhotoImg{
+    width: 500px;
+    margin: 20px 150px;
+    color: #DCDCDC;
+    cursor: pointer;
+    text-align: center;
+    padding: 80px 0px;
+    font-size: 30px;
+}
