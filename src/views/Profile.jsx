@@ -14,6 +14,7 @@ export default function Profile(props){
     const [userPhoto, setUserPhoto] = useState('')
     const [myVaccancyChoose, setMyVaccancyChoose] = useState(false)
     const [resume, setResume] = useState(0)
+    const [resumePhoto, setResumePhoto] = useState(null)
     useEffect(()=>{
         $.ajax({
             url: '/getProfileSmallInfo',
@@ -26,7 +27,10 @@ export default function Profile(props){
                 setLogin(res.login)
                 if(!res.photo) setUserPhoto(userImg)
                 if(!res.resume) setResume(false)
-                if(res.resume) setResume(true)
+                if(res.resume){
+                    setResume(true)
+                    setResumePhoto('/getImage/' + res.resume.photo)
+                }
                 setProfileD(0)
             },
             error: (res)=>{
@@ -57,7 +61,15 @@ export default function Profile(props){
                 top: (myVaccancyChoose == false) ? '-1px' : ''}} onClick={()=>{setMyVaccancyChoose(true)}}>Мои вакансии</div>
             </div>
             <div className='vaccancies' style={{display: (profileD == 0) ? 'flex' : 'none'}}>
-                <a className="vaccanciesCreate" href='/new_resume' style={{display: (resume == false) ? 'block' : 'none'}}>Создать резюме</a>
+                <a className="resumeCreate" href='/new_resume' style={{display: (resume == false) ? 'block' : 'none'}}>Создать резюме</a>
+                <div className='resume' style={{display: (resume == false) ? 'none' : 'block'}}>
+                    <div className='d-flex'>
+                        <img className='resumePhoto' src={(resumePhoto != null) ? resumePhoto : ''}/>
+                        <div>
+                            <div></div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div className='profileNoneError' style={{display: (profileD != 0 && profileD != 1) ? 'block' : 'none'}}>{profileD}</div>

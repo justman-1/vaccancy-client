@@ -101,7 +101,7 @@
     text-align: center;
     display: 'none';
 }
-.vaccanciesCreate{
+.resumeCreate{
     width: 200px;
     text-align: center;
     padding: 4px 0px;
@@ -117,4 +117,11 @@
 }
 .vaccanciesCreate:hover{
     color: black;
+}
+.resume{
+    margin: 20px 70px;
+}
+.resumePhoto{
+    width: 300px;
+    height: 200px;
 }

@@ -89,6 +89,7 @@ export default function NewResume(props){
                     $('.signinImg').css({
                         display: 'block'
                     })
+                    window.location = '/register'
                 }
                 else if(res.status == 410){
                     alert(res.responseText)
@@ -150,7 +151,7 @@ export default function NewResume(props){
                 </Box>
                 <label>
                     <img className='newResumePhotoImg' onError={photoError} src={(photoSrc != null) ? photoSrc : ''} style={{display: (photoSrc != null) ? 'block' : 'none'}}/>
-                    <div className='newResumePhoto' style={{display: (photoSrc != null) ? 'none' : 'block'}}>Загрузить фото(до 5мб)</div>
+                    <div className='newResumePhoto' style={{display: (photoSrc != null) ? 'none' : 'block'}}>Загрузить фото(до 5мб в соотношении 16:9)</div>
                     <input type="file" onChange={savePhoto} ref={photoRef} style={{display: 'none'}}/>
                 </label>
                 <div className='newResumeTitleLine' style={{marginTop: '60px'}}>
