@@ -87,6 +87,7 @@
 .vaccancies{
     width: 800px;
     margin-left: 50%;
+    margin-bottom: 50px;
     position: relative;
     left: -400px;
     display: flex;
@@ -120,8 +121,31 @@
 }
 .resume{
     margin: 20px 70px;
+    min-height: 200px;
 }
 .resumePhoto{
     width: 300px;
-    height: 200px;
+    margin-right: 20px;
+}
+.resumeNameBl{
+    display: flex;
+    margin-top: 5px;
+}
+.resumeNameSp{
+    width: 150px;
+    font-weight: 600;
+}
+.resumeNameField{
+    width: 240px;
+    word-break: break-all;
+}
+.resumeAddit{
+    margin-bottom: 20px;
+}
+.resumeChangeBut{
+    width: 18px;
+    position: absolute;
+    top: 5px; 
+    right: 5px;
+    cursor: pointer;
 }

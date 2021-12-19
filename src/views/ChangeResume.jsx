@@ -7,6 +7,8 @@ import Header from '../components/Header'
 import Axios from '../axios.js'
 
 export default function NewResume(props){
+    const resumeData = JSON.parse(localStorage.getItem('resumeData'))
+    console.log(resumeData)
     const [load, setLoad] = useState(0)
     const photoRef = useRef()
     const [user, setUser] = useState(false)
@@ -15,7 +17,7 @@ export default function NewResume(props){
     const [born, setBorn] = useState('')
     const [city, setCity] = useState('')
     const [photo, setPhoto] = useState(null)
-    const [photoSrc, setPhotoSrc] = useState(null)
+    const [photoSrc, setPhotoSrc] = useState('/getImage/' + resumeData.photo)
     const [contacts, setContacts] = useState('')
     const [experience, setExperience] = useState('')
     const [education, setEducation] = useState('')
@@ -131,17 +133,17 @@ export default function NewResume(props){
                     <div className='newResumeTitle'><span className='newResumeTitleSp'>ОСНОВНАЯ ИНФОРМАЦИЯ</span></div>
                 </div>
                 <Box className='newResumeInp'>
-                    <TextField id="outlined-basic" onChange={(e)=>{setPosition(e.target.value)}} label="Желамая должность" variant="outlined" style={{width: '100%'}}/>
+                    <TextField id="outlined-basic" defaultValue={resumeData.position} onChange={(e)=>{setPosition(e.target.value)}} label="Желамая должность" variant="outlined" style={{width: '100%'}}/>
                 </Box>
                 <Box className='newResumeInp'>
-                    <TextField id="outlined-basic" onChange={(e)=>{setFIO(e.target.value)}} label="ФИО" variant="outlined" style={{width: '100%'}}/>
+                    <TextField id="outlined-basic" defaultValue={resumeData.FIO} onChange={(e)=>{setFIO(e.target.value)}} label="ФИО" variant="outlined" style={{width: '100%'}}/>
                 </Box>
                 <div className='newResumeInpDateSp'>Дата рождения:</div>
                 <Box className='newResumeInp'>
-                    <TextField id="outlined-basic" onChange={(e)=>{setBorn(e.target.value)}} variant="outlined" style={{width: '100%'}} type='date'/>
+                    <TextField id="outlined-basic" defaultValue={resumeData.date} onChange={(e)=>{setBorn(e.target.value)}} variant="outlined" style={{width: '100%'}} type='date'/>
                 </Box>
                 <Box className='newResumeInp'>
-                    <TextField id="outlined-basic" onChange={(e)=>{setCity(e.target.value)}} label="Город проживания" variant="outlined" style={{width: '100%'}}/>
+                    <TextField id="outlined-basic" defaultValue={resumeData.city} onChange={(e)=>{setCity(e.target.value)}} label="Город проживания" variant="outlined" style={{width: '100%'}}/>
                 </Box>
                 <label>
                     <img className='newResumePhotoImg' onError={photoError} src={(photoSrc != null) ? photoSrc : ''} style={{display: (photoSrc != null) ? 'block' : 'none'}}/>
@@ -151,32 +153,32 @@ export default function NewResume(props){
                 <div className='newResumeTitleLine' style={{marginTop: '60px'}}>
                     <div className='newResumeTitle'><span className='newResumeTitleSp'>ОСТАЛЬНАЯ ИНФОРМАЦИЯ</span></div>
                 </div>
-                <TextField multiline id="outlined-basic" onChange={(e)=>{setContacts(e.target.value)}} label="Контакты" variant="outlined" style={{width: '80%',
+                <TextField multiline id="outlined-basic" defaultValue={resumeData.contacts} onChange={(e)=>{setContacts(e.target.value)}} label="Контакты" variant="outlined" style={{width: '80%',
                                                                                                      marginLeft: '10%', 
                                                                                                      marginTop: '10px', 
                                                                                                      marginBottom: '10px'
                                                                                                     }}/>
-                <TextField multiline id="outlined-basic" onChange={(e)=>{setExperience(e.target.value)}} label="Опыт работы" variant="outlined" style={{width: '80%',
+                <TextField multiline id="outlined-basic" defaultValue={resumeData.experience} onChange={(e)=>{setExperience(e.target.value)}} label="Опыт работы" variant="outlined" style={{width: '80%',
                                                                                                      marginLeft: '10%', 
                                                                                                      marginTop: '10px', 
                                                                                                      marginBottom: '10px'
                                                                                                     }}/>
-                <TextField multiline id="outlined-basic" onChange={(e)=>{setEducation(e.target.value)}} label="Основное образование" variant="outlined" style={{width: '80%',
+                <TextField multiline id="outlined-basic" defaultValue={resumeData.education} onChange={(e)=>{setEducation(e.target.value)}} label="Основное образование" variant="outlined" style={{width: '80%',
                                                                                                      marginLeft: '10%', 
                                                                                                      marginTop: '10px', 
                                                                                                      marginBottom: '10px'
                                                                                                     }}/>
-                <TextField multiline id="outlined-basic" onChange={(e)=>{setLanguages(e.target.value)}} label="Владение языками" variant="outlined" style={{width: '80%',
+                <TextField multiline id="outlined-basic" defaultValue={resumeData.languages} onChange={(e)=>{setLanguages(e.target.value)}} label="Владение языками" variant="outlined" style={{width: '80%',
                                                                                                      marginLeft: '10%', 
                                                                                                      marginTop: '10px', 
                                                                                                      marginBottom: '10px'
                                                                                                     }}/>
-                <TextField multiline id="outlined-basic" onChange={(e)=>{setSkills(e.target.value)}} label="Профессиональные навыки" variant="outlined" style={{width: '80%',
+                <TextField multiline id="outlined-basic" defaultValue={resumeData.skills} onChange={(e)=>{setSkills(e.target.value)}} label="Профессиональные навыки" variant="outlined" style={{width: '80%',
                                                                                                      marginLeft: '10%', 
                                                                                                      marginTop: '10px', 
                                                                                                      marginBottom: '10px'
                                                                                                     }}/>
-                <TextField multiline id="outlined-basic" onChange={(e)=>{setDescription(e.target.value)}} label="Подробнее о вас и о ваших профессиональных навыках" variant="outlined" style={{width: '80%',
+                <TextField multiline id="outlined-basic" defaultValue={resumeData.description} onChange={(e)=>{setDescription(e.target.value)}} label="Подробнее о вас и о ваших профессиональных навыках" variant="outlined" style={{width: '80%',
                                                                                                      marginLeft: '10%', 
                                                                                                      marginTop: '10px', 
                                                                                                      marginBottom: '10px'

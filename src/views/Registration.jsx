@@ -2,33 +2,20 @@ import { useRef, useState } from 'react'
 import Header from '../components/Header'
 import '../styles/registration.css'
 import $ from 'jquery'
+import Axios from '../axios.js'
 
 export default function Registration(){
     const nickname = useRef()
     const email = useRef()
     const password = useRef()
     const [error, setError] = useState()
-    function createAccByEmail(){
-        $.ajax({
-            url: '/register',
-            method: 'post',
-            data: {
-                login: nickname.current.value,
-                email: email.current.value,
-                password: password.current.value
-            },
-            success: (res)=>{
-                localStorage.setItem('refreshToken', res.refreshToken)
-                localStorage.setItem('accessToken', res.accessToken)
-                window.location = '/profile/' + res.id
-            },
-            error: (res)=>{
-                console.log(res)
-                if(res.status == 410 | 501){
-                    setError(res.responseText)
-                }
+    async function createAccByEmail(){
+        const [err, res] = await Axios.register(nickname.current.value, email.current.value, password.current.value)
+        if(err){
+            if(err.status == 410 | 501){
+                setError(err.text)
             }
-        })
+        }
     }
     return(
         <div>

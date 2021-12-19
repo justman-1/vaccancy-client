@@ -4,48 +4,38 @@ import '../styles/header.css'
 import searchImg from '../imgs/search.png'
 import signinImg from '../imgs/signin.png'
 import userImg from '../imgs/user.png'
+import Axios from '../axios.js'
 
 export default function Header(){
     const [load, setLoad] = useState()
     const signinRef = useRef()
     const [userPhoto, setUserPhoto] = useState(false)
     const [profileId, setProfileId] = useState('')
-    useEffect(()=>{
-        if(localStorage.getItem('accessToken') != undefined && localStorage.getItem('refreshToken') != undefined){
+    useEffect(async ()=>{
+        if(Axios.user == true){
             $('.signinImg').css({
                 display: 'none'
             })
-            $.ajax({
-                url: '/getPhoto',
-                method: 'get',
-                data: {
-                    id: 'my_id'
-                },
-                headers: {
-                    access_token: localStorage.getItem('accessToken'),
-                    refresh_token: localStorage.getItem('refreshToken')
-                },
-                success: (res)=>{
-                    console.log(res)
-                    if(res.content == 'null'){
-                        setUserPhoto(userImg)
-                        $('.userPhoto').attr('src', userImg)
-                    }
-                    setProfileId(res.id)
-                    $('.userPhoto').css({
+            const [err, res] = await Axios.getPhoto('my_id')
+            if(res){
+                if(res.content == 'null'){
+                    setUserPhoto(userImg)
+                    $('.userPhoto').attr('src', userImg)
+                }
+                setProfileId(res.id)
+                $('.userPhoto').css({
+                    display: 'block'
+                })
+            }
+            else if(err){
+                if(err.status == 401){
+                    localStorage.removeItem('accessToken')
+                    localStorage.removeItem('refreshToken')
+                    $('.signinImg').css({
                         display: 'block'
                     })
-                },
-                error: (res)=>{
-                    if(res.status == 401){
-                        localStorage.removeItem('accessToken')
-                        localStorage.removeItem('refreshToken')
-                        $('.signinImg').css({
-                            display: 'block'
-                        })
-                    }
                 }
-            })
+            }
         }
     }, [load])
     return(
