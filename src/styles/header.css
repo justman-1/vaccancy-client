@@ -2,7 +2,7 @@
     width: 100%;
     padding: 4px 0px;
     border-bottom: 1px solid #DCDCDC;
-    height: 50px;
+    height: 55px;
 }
 .headerSearch{
     position: absolute;
@@ -10,6 +10,7 @@
     margin-left: 50%;
     left: -200px;
     display: flex;
+    margin-top: 2px;
 }
 .headerSearchInp{
     width: 350px;
@@ -43,8 +44,17 @@
 }
 .userPhoto{
     height: 45px;
+    width: 45px;
     margin: 0px 30px;
     position: absolute;
     right: 0px;
     display: none;
+    border-radius: 45px;
+}
+.headerMain{
+    width: 30px;
+    position: absolute;
+    margin-top: 8px;
+    margin-left: 10px;
+    cursor: pointer;
 }

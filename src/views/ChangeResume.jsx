@@ -1,29 +1,32 @@
 import { useRef, useState, useEffect } from 'react'
+import { useSelector } from 'react-redux'
 import Box from '@mui/material/Box'
 import TextField from '@mui/material/TextField'
-import $ from 'jquery'
+import $, { cssNumber } from 'jquery'
 import '../styles/newResume.css'
 import Header from '../components/Header'
 import Axios from '../axios.js'
+import store from '../store'
 
-export default function NewResume(props){
-    const resumeData = JSON.parse(localStorage.getItem('resumeData'))
-    console.log(resumeData)
+export default function ChangeResume(props){
+    const resumeData = JSON.parse((localStorage.getItem('resumeData') != undefined) ? localStorage.getItem('resumeData') : '{}')
     const [load, setLoad] = useState(0)
     const photoRef = useRef()
+    const saveResumeBut = useRef()
+    const cancelResumeBut = useRef()
     const [user, setUser] = useState(false)
-    const [position, setPosition] = useState('')
-    const [FIO, setFIO] = useState('')
-    const [born, setBorn] = useState('')
-    const [city, setCity] = useState('')
+    const [position, setPosition] = useState(null)
+    const [FIO, setFIO] = useState(null)
+    const [born, setBorn] = useState(null)
+    const [city, setCity] = useState(null)
     const [photo, setPhoto] = useState(null)
     const [photoSrc, setPhotoSrc] = useState('/getImage/' + resumeData.photo)
-    const [contacts, setContacts] = useState('')
-    const [experience, setExperience] = useState('')
-    const [education, setEducation] = useState('')
-    const [languages, setLanguages] = useState('')
-    const [skills, setSkills] = useState('')
-    const [description, setDescription] = useState('')
+    const [contacts, setContacts] = useState(null)
+    const [experience, setExperience] = useState(null)
+    const [education, setEducation] = useState(null)
+    const [languages, setLanguages] = useState(null)
+    const [skills, setSkills] = useState(null)
+    const [description, setDescription] = useState(null)
     useEffect(()=>{
         if(localStorage.getItem('accessToken') != undefined || localStorage.getItem('refreshToken') != undefined){
             setUser(true)
@@ -33,7 +36,12 @@ export default function NewResume(props){
         }
     }, [load])
     async function saveResume(){
-        var [err, res] = await Axios.saveResume({
+        if($(saveResumeBut.current).css('opacity') != '1'){
+            return null
+        }
+        $(saveResumeBut.current).css({ opacity: '0.4' })
+        $(cancelResumeBut.current).css({ opacity: '0.4' })
+        var [err, res] = await Axios.changeResume({
             position: position,
             FIO: FIO,
             born: born,
@@ -50,25 +58,36 @@ export default function NewResume(props){
             localStorage.setItem('refreshToken', res.refreshToken)
             localStorage.setItem('accessToken', res.accessToken)
             console.log(res)
+            if(res.photoName == false || res.photoName == undefined){
+                window.location.href = $('.profileIdLink').attr('href')
+                return null
+            }
+            console.log(1)
             const fd = photo.fd
             const fd2 = new FormData()
-            fd2.append('photo', fd.get('photo'))
+            fd2.append('photo', fd.get('photo'), res.photoName)
+            console.log(2)
             $.ajax({
                 url: '/saveImage',
                 method: 'post',
                 headers: {
                     access_token: localStorage.getItem('accessToken'),
-                    refresh_token: localStorage.getItem('refreshToken'),
-                    photoName: res.photoName
+                    refresh_token: localStorage.getItem('refreshToken')
                 },
                 data: fd2,
                 contentType: false,
                 processData: false,
                 success: (res)=>{
                     console.log(res)
+                    $(saveResumeBut.current).css({ opacity: '1' })
+                    $(cancelResumeBut.current).css({ opacity: '1' })
+                    console.log(res)
                     window.location = $('.profileIdLink').attr('href')
                 },
                 error: (res)=>{
+                    console.log(res)
+                    $(saveResumeBut.current).css({ opacity: '1' })
+                    $(cancelResumeBut.current).css({ opacity: '1' })
                     if(res.status == 401){
                         localStorage.removeItem('accessToken')
                         localStorage.removeItem('refreshToken')
@@ -80,6 +99,8 @@ export default function NewResume(props){
             })
         }
         else if(err){
+            $(saveResumeBut.current).css({ opacity: '1' })
+            $(cancelResumeBut.current).css({ opacity: '1' })
             if(err.status == 401){
                 localStorage.removeItem('accessToken')
                 localStorage.removeItem('refreshToken')
@@ -88,8 +109,8 @@ export default function NewResume(props){
                 })
                 window.location = '/registration'
             }
-            else if(res.status == 410){
-                alert(res.responseText)
+            else if(err.status == 410){
+                alert(err.text)
             }
         }
     }
@@ -125,6 +146,9 @@ export default function NewResume(props){
             alert('Такой формат фото не поддерживается.')
         }
     }
+    function cancelSaveResume(){
+        window.location = $('.profileIdLink').attr('href')
+    }
     return(
         <div>
             <Header/>
@@ -140,7 +164,7 @@ export default function NewResume(props){
                 </Box>
                 <div className='newResumeInpDateSp'>Дата рождения:</div>
                 <Box className='newResumeInp'>
-                    <TextField id="outlined-basic" defaultValue={resumeData.date} onChange={(e)=>{setBorn(e.target.value)}} variant="outlined" style={{width: '100%'}} type='date'/>
+                    <TextField id="outlined-basic" defaultValue={resumeData.born.slice(0, 10)} onChange={(e)=>{setBorn(e.target.value)}} variant="outlined" style={{width: '100%'}} type='date'/>
                 </Box>
                 <Box className='newResumeInp'>
                     <TextField id="outlined-basic" defaultValue={resumeData.city} onChange={(e)=>{setCity(e.target.value)}} label="Город проживания" variant="outlined" style={{width: '100%'}}/>
@@ -183,8 +207,8 @@ export default function NewResume(props){
                                                                                                      marginTop: '10px', 
                                                                                                      marginBottom: '10px'
                                                                                                     }}/>
-                <div className='newResumeSave' onClick={saveResume}>Сохранить резюме</div>
-
+                <div className='newResumeSave' ref={saveResumeBut} onClick={saveResume}>Сохранить резюме</div>
+                <div className='newResumeSave' ref={cancelResumeBut} onClick={cancelSaveResume} style={{backgroundColor: '#e34242'}}>Не применять изменений</div>
             </div>
         </div>
     )

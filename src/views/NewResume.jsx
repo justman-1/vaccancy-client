@@ -9,6 +9,7 @@ import Axios from '../axios.js'
 export default function NewResume(props){
     const [load, setLoad] = useState(0)
     const photoRef = useRef()
+    const saveResumeBut = useRef()
     const [user, setUser] = useState(false)
     const [position, setPosition] = useState('')
     const [FIO, setFIO] = useState('')
@@ -31,6 +32,12 @@ export default function NewResume(props){
         }
     }, [load])
     async function saveResume(){
+        if($(saveResumeBut.current).css('opacity') != '1'){
+            return null
+        }
+        $(saveResumeBut.current).css({
+            opacity: '0.4'
+        })
         var [err, res] = await Axios.saveResume({
             position: position,
             FIO: FIO,
@@ -50,14 +57,13 @@ export default function NewResume(props){
             console.log(res)
             const fd = photo.fd
             const fd2 = new FormData()
-            fd2.append('photo', fd.get('photo'))
+            fd2.append('photo', fd.get('photo'), res.photoName)
             $.ajax({
                 url: '/saveImage',
                 method: 'post',
                 headers: {
                     access_token: localStorage.getItem('accessToken'),
-                    refresh_token: localStorage.getItem('refreshToken'),
-                    photoName: res.photoName
+                    refresh_token: localStorage.getItem('refreshToken')
                 },
                 data: fd2,
                 contentType: false,
@@ -65,8 +71,14 @@ export default function NewResume(props){
                 success: (res)=>{
                     console.log(res)
                     window.location = $('.profileIdLink').attr('href')
+                    $(saveResumeBut.current).css({
+                        opacity: '1'
+                    })
                 },
                 error: (res)=>{
+                    $(saveResumeBut.current).css({
+                        opacity: '1'
+                    })
                     if(res.status == 401){
                         localStorage.removeItem('accessToken')
                         localStorage.removeItem('refreshToken')
@@ -78,6 +90,9 @@ export default function NewResume(props){
             })
         }
         else if(err){
+            $(saveResumeBut.current).css({
+                opacity: '1'
+            })
             if(err.status == 401){
                 localStorage.removeItem('accessToken')
                 localStorage.removeItem('refreshToken')
@@ -86,8 +101,8 @@ export default function NewResume(props){
                 })
                 window.location = '/registration'
             }
-            else if(res.status == 410){
-                alert(res.responseText)
+            else if(err.status == 410){
+                alert(err.text)
             }
         }
     }
@@ -181,7 +196,7 @@ export default function NewResume(props){
                                                                                                      marginTop: '10px', 
                                                                                                      marginBottom: '10px'
                                                                                                     }}/>
-                <div className='newResumeSave' onClick={saveResume}>Сохранить резюме</div>
+                <div className='newResumeSave' ref={saveResumeBut} onClick={saveResume}>Сохранить резюме</div>
 
             </div>
         </div>

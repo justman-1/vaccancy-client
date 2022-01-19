@@ -1,0 +1,20 @@
+.vacancyPosition{
+    font-size: 30px;
+    margin: 30px 10% 0px 10%;
+    width: 80%;
+}
+.vacancyCompany{
+    margin-left: 10%;
+    margin-top: 20px;
+    width: 80%;
+}
+.vacancyPart{
+    margin-left: 10%;
+    width: 80%;
+}
+.vacancyDate{
+    float: right;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-right: 10%;
+}

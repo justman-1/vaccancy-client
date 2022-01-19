@@ -1,0 +1,51 @@
+a{
+    color: black;
+    text-decoration: none;
+}
+a:hover{
+    color: black;
+    text-decoration: none;
+}
+.vacancyIconBl{
+    width: 80%;
+    margin-left: 10%;
+    margin-top: 10px;
+    padding: 10px 30px;
+    box-shadow: 0px 0px 10px #DCDCDC;
+    border-radius: 4px;
+    position: relative;
+}
+.vacancyIconPosition{
+    font-size: 25px;
+    width: 80%;
+    float: left;
+}
+.vacancyIconSalary{
+    float: right;
+    margin-top: 5px;
+}
+.vacancyIconCity{
+    margin-top: 5px;
+    color: LightGrey;
+}
+.vacancyIconChange{
+    width: 15px;
+    position: absolute;
+    right: 10px;
+    top: 35px;
+    cursor: pointer;
+}
+.vacancyIconTrashcan{
+    width: 15px;
+    position: absolute;
+    right: 10px;
+    top: 60px;
+    cursor: pointer;
+}
+.vacancyIconEye{
+    width: 15px;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    cursor: pointer;
+}

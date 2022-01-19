@@ -1,0 +1,24 @@
+.profileChangeBl{
+    width: 800px;
+    margin-top: 20px;
+    margin-left: 50%;
+    position: relative;
+    left: -400px;
+    padding-top: 30px;
+    padding-bottom: 10px;
+    box-shadow: 0px 0px 10px #DCDCDC;
+    display: none;
+}
+.profileChangeBlPart{
+    width: 60%;
+}
+.profileChangeBlPhoto{
+    width: 39%;
+    cursor: pointer;
+}
+.profileChangeBlPhotoImg{
+    width: 200px;
+    height: 200px;
+    border-radius: 200px;
+    margin-left: 20%;
+}
