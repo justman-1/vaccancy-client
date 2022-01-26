@@ -276,6 +276,23 @@ class Axios{
         }
     }
 
+    async getVacancies(index, filters){
+        try{
+            const { data } = await axios({
+                url: '/getVacancies',
+                method: 'get',
+                headers: {
+                    index: index,
+                    filters: filters
+                }
+            })
+            return [null, data]
+        }catch(err){
+            err = err.response
+            return [{status: err.status, text: err.data}, null]
+        }
+    }
+
 }
 
 export default new Axios()
