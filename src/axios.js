@@ -276,14 +276,14 @@ class Axios{
         }
     }
 
-    async getVacancies(index, filters){
+    async getVacancies(filters, date){
         try{
             const { data } = await axios({
                 url: '/getVacancies',
                 method: 'get',
-                headers: {
-                    index: index,
-                    filters: filters
+                params: {
+                    filters: filters,
+                    date: date
                 }
             })
             return [null, data]

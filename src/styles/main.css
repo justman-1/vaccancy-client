@@ -32,6 +32,7 @@
     margin-top: 10px;
     margin-bottom: 10px;
     cursor: pointer;
+    transition: all 0.3s ease;
 }
 .vacanciesBl{
     padding: 0.1px;
@@ -43,4 +44,47 @@
     border-radius: 4px;
     margin-bottom: 50px;
     overflow: hidden;
+}
+.vacancyBl{
+    width: 100%;
+    border: 1px solid #DCDCDC;
+    border-radius: 4px;
+    padding: 10px 30px;
+}
+.vacancyBlPosition{
+    font-size: 20px;
+    color: #54A1FF;
+    transition: all 0.1s ease;
+}
+.vacancyBlPosition:hover{
+    color: #144EB2;
+}
+.vacancyBlCompany{
+    font-size: 12px;
+    color: gray;
+}
+.vacancyBlActivity{
+    font-size: 14px;
+}
+.vacancyBlMarker{
+    width: 15px;
+    opacity: 0.4;
+    margin-left: 5px;
+}
+.vacancyBlRespond{
+    text-align: center;
+    width: 120px;
+    padding: 3px 0px;
+    border-radius: 3px;
+    background-color: #3667DD;
+    color: white;
+    cursor: pointer;
+    font-size: 14px;
+    margin-top: 5px;
+}
+.vacanciesBlNone{
+    text-align: center;
+    color: 	#C0C0C0;
+    font-size: 24px;
+    margin-top: 50px;
 }

@@ -5,15 +5,17 @@ import $ from 'jquery'
 import '../styles/main.css'
 import Axios from '../axios.js'
 import Header from '../components/Header'
+import Vacancy from '../components/Vacancy'
 
 export default function Main(props){
     const [load, setLoad] = useState(0)
     const [filters, setFilters] = useState([])
     const [vacancies, setVacancies] = useState([])
     const [loadingState, setLoadingState] = useState(false)
+    const [date, setDate] = useState(new Date())
     const loading = useRef()
     useEffect(()=>{
-        getVacancies(vacancies.length)
+        getVacancies()
     }, [load])
     function changeFilters(e){
         const checkbox = e.target
@@ -37,15 +39,19 @@ export default function Main(props){
         }
         setFilters(filters)
     }
-    async function getVacancies( index ){
+    async function getVacancies(){
         if(!loadingState){
             setLoadingState(true)
-            const [err, res] = await Axios.getVacancies(index, filters)
+            setVacancies([])
+            const [err, res] = await Axios.getVacancies( filters, date)
             if(res){
                 console.log(res)
+                setLoadingState(false)
+                setVacancies(res)
             }
             else if(err){
                 console.log(err)
+                setLoadingState(false)
             }
         }
     }
@@ -75,12 +81,16 @@ export default function Main(props){
                     <div className='mainFiltersPartText'>Брест</div>
                 </label>
 
-                <div className='mainFiltersUseBut'>Применить</div>
+                <div className='mainFiltersUseBut' onClick={getVacancies} style={{opacity: (loadingState) ? '0.5' : '1'}}>Применить</div>
             </div>
             <div className='vacanciesBl'>
                 <Box className='justify-content-center' sx={{ display: (loadingState) ? 'flex' : 'none', marginTop: '20px' }} ref={loading}>
                     <CircularProgress />
                 </Box>
+                <div className='vacanciesBlNone' style={{display: (vacancies.length == 0 && !loadingState) ? 'block' : 'none'}}>На данный момент такие вакансии отсутствуют :/</div>
+                {vacancies.map((e, i)=>{
+                    return <Vacancy {...e} key={i}/>
+                })}
             </div>
         </div>
     )
