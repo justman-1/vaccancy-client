@@ -1,6 +1,7 @@
 import { useRef, useState, useEffect } from 'react'
 import Box from '@mui/material/Box'
 import CircularProgress from '@mui/material/CircularProgress'
+import store from '../store.js'
 import $ from 'jquery'
 import '../styles/main.css'
 import Axios from '../axios.js'
@@ -15,6 +16,11 @@ export default function Main(props){
     const [date, setDate] = useState(new Date())
     const loading = useRef()
     useEffect(()=>{
+        const request = props.match.params.request
+        console.log(props)
+        if(request){
+            store.dispatch({type: 'changeSearchRequest', value: request})
+        }
         getVacancies()
     }, [load])
     function changeFilters(e){
@@ -43,7 +49,7 @@ export default function Main(props){
         if(!loadingState){
             setLoadingState(true)
             setVacancies([])
-            const [err, res] = await Axios.getVacancies( filters, date)
+            const [err, res] = await Axios.getVacancies( store.getState().searchRequest, filters, date)
             if(res){
                 console.log(res)
                 setLoadingState(false)
@@ -57,7 +63,7 @@ export default function Main(props){
     }
     return(
         <div>
-            <Header/>
+            <Header request={props.match.params.request}/>
             <div className='mainFilters'>
                 <div className="mainFiltersPartSp">Город</div>
                 <label className='mainFiltersPart d-flex'>

@@ -5,11 +5,14 @@ import searchImg from '../imgs/search.png'
 import signinImg from '../imgs/signin.png'
 import userImg from '../imgs/user.png'
 import houseImg from '../imgs/house.png'
+import store from '../store.js'
 import Axios from '../axios.js'
 
-export default function Header(){
+export default function Header(props){
+    const request = props.request
     const [load, setLoad] = useState()
     const signinRef = useRef()
+    const searchInp = useRef()
     const [userPhoto, setUserPhoto] = useState(false)
     const [profileId, setProfileId] = useState('')
     useEffect(async ()=>{
@@ -43,15 +46,25 @@ export default function Header(){
                 }
             }
         }
+        if(request){
+            searchInp.current.value = request
+        }
     }, [load])
     function imageError(){
+    }
+    function changeSearchInp(){
+        store.dispatch({type: 'changeSearchRequest', value: searchInp.current.value})
+    }
+    function search(){
+        const value = searchInp.current.value
+        window.location = '/' + value
     }
     return(
         <div className='header'>
             <a href='/'><img src={houseImg} className='headerMain' /></a>
             <div className='headerSearch'>
-                <input type="text" className='headerSearchInp' placeholder='Search...'/>
-                <div className='headerSearchBut'>
+                <input type="text" ref={searchInp} className='headerSearchInp' placeholder='Search...' onChange={changeSearchInp}/>
+                <div className='headerSearchBut' onClick={search}>
                     <img src={searchImg} className='headerSearchButImg' />
                 </div>
             </div>

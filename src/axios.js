@@ -276,14 +276,32 @@ class Axios{
         }
     }
 
-    async getVacancies(filters, date){
+    async getVacancies( request, filters, date){
         try{
+            console.log(request)
             const { data } = await axios({
                 url: '/getVacancies',
                 method: 'get',
                 params: {
                     filters: filters,
-                    date: date
+                    date: date,
+                    request: (request || request.replace(/\s+/g, ' ') != '') ? request.toLowerCase().trim() : null
+                }
+            })
+            return [null, data]
+        }catch(err){
+            err = err.response
+            return [{status: err.status, text: err.data}, null]
+        }
+    }
+
+    async respondVacancy(id){
+        try{
+            const { data } = await axios({
+                url: '/respondVacancy',
+                method: 'post',
+                data: {
+                    id: id
                 }
             })
             return [null, data]

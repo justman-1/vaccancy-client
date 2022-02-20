@@ -28,6 +28,7 @@ function App() {
         <Route exact path='/vacancy/:id' component={Vacancy}/>
         <Route exact path='/changeVacancy/:id' component={ChangeVacancy}/>
         <Route exact path='/' component={Main}/>
+        <Route exact path='/:request' component={Main}/>
       </Switch>
     </BrowserRouter>
     </Provider>

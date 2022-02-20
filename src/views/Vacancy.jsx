@@ -21,6 +21,7 @@ export default function NewResume(props){
     const [user, setUser] = useState(false)
     const [data, setData] = useState({})
     const [dataIndex, setDataIndex] = useState(0)
+    const [loadingState, setLoadingState] = useState(false)
     useEffect(async ()=>{
         var [err, res] = await Axios.getVacancy(id)
         if(res){
@@ -33,6 +34,18 @@ export default function NewResume(props){
             window.location = '/'
         }
     }, [load])
+    async function respond(){
+        setLoadingState(true)
+        if(localStorage.getItem('accessToken') == undefined || localStorage.getItem('refreshToken') == undefined){
+            alert('Вы должны быть зарегистрированы и иметь резюме в профиле, чтобы откикнуться на вакансию')
+            setLoadingState(false)
+            return null
+        }
+        else{
+            setLoadingState(false)
+        }
+        const [err, res] = await Axios.respondVacancy(id)
+    }
     return(
         <div>
             <Header/>
@@ -56,6 +69,7 @@ export default function NewResume(props){
                 <div className='vacancyCompany' style={{display: (data.address != '') ? 'block' : 'none'}}>Адрес: {data.address}</div>
                 <Map state="show" coords={data.coords} />
                 <div className='vacancyDate'>{(data.date != undefined && data.date != null) ? data.date.slice(0, 10) : ''}</div>
+                <div className='vacancyRespond' onClick={respond} style={{opacity: (!loadingState) ? '1' : '0.4'}}>Откликнуться</div>
             </div>
         </div>
     )

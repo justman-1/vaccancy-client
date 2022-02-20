@@ -10,7 +10,8 @@ const initialState = {
     deleteVacancy: {
         index: 0,
         id: null
-    }
+    },
+    searchRequest: '',
 }
 
 const store = createStore(reducer, initialState);
@@ -29,6 +30,10 @@ function reducer(state = initialState, action) {
         case 'deleteVacancy':
             state.deleteVacancy.index += 1
             state.deleteVacancy.id = action.id
+            return state
+
+        case 'changeSearchRequest':
+            state.searchRequest = action.value
             return state
         
         default: return state;
