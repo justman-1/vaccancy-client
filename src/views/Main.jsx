@@ -9,6 +9,8 @@ import Header from '../components/Header'
 import Vacancy from '../components/Vacancy'
 
 export default function Main(props){
+    const url = new URL(window.location.href)
+    console.log(url.searchParams.get('filters'))
     const [load, setLoad] = useState(0)
     const [filters, setFilters] = useState([])
     const [vacancies, setVacancies] = useState([])
@@ -16,7 +18,8 @@ export default function Main(props){
     const [date, setDate] = useState(new Date())
     const loading = useRef()
     useEffect(()=>{
-        const request = props.match.params.request
+        const request = decodeURIComponent(url.searchParams.get('request'))
+        const filters = JSON.parse(decodeURIComponent(url.searchParams.get('filters')))
         console.log(props)
         if(request){
             store.dispatch({type: 'changeSearchRequest', value: request})
@@ -44,6 +47,7 @@ export default function Main(props){
             })
         }
         setFilters(filters)
+        store.dispatch({type: 'changeSearchFilters', value: filters})
     }
     async function getVacancies(){
         if(!loadingState){
@@ -63,7 +67,7 @@ export default function Main(props){
     }
     return(
         <div>
-            <Header request={props.match.params.request}/>
+            <Header request={decodeURIComponent(url.searchParams.get('request'))}/>
             <div className='mainFilters'>
                 <div className="mainFiltersPartSp">Город</div>
                 <label className='mainFiltersPart d-flex'>

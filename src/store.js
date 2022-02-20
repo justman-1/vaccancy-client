@@ -12,6 +12,7 @@ const initialState = {
         id: null
     },
     searchRequest: '',
+    searchFilters: []
 }
 
 const store = createStore(reducer, initialState);
@@ -34,6 +35,10 @@ function reducer(state = initialState, action) {
 
         case 'changeSearchRequest':
             state.searchRequest = action.value
+            return state
+
+        case 'changeSearchFilters':
+            state.filters = action.value
             return state
         
         default: return state;

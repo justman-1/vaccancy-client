@@ -57,7 +57,10 @@ export default function Header(props){
     }
     function search(){
         const value = searchInp.current.value
-        window.location = '/' + value
+        var url = new URL(window.location.href)
+        url.searchParams.set('request', encodeURIComponent(value))
+        url.searchParams.set('filters', encodeURIComponent(JSON.stringify(store.getState().searchFilters)))
+        window.location = url
     }
     return(
         <div className='header'>
